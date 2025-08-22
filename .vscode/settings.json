@@ -22,6 +22,7 @@
         "typeinfo": "cpp",
         "vector": "cpp",
         "cstddef": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "ios": "cpp"
     }
 }

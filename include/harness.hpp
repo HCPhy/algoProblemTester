@@ -31,7 +31,7 @@ namespace app{
             ++st.passed;
         }else{
             ++st.failed;
-            std::cerr << 'x '<< name << " failed\n"
+            std::cerr << "x "<< name << " failed\n"
             << " input : " << input << "\n"
             << " expect: " << expect<< "\n"
             << " got   : " << got << "\n";
@@ -45,11 +45,11 @@ namespace app{
         using OutRef = std::invoke_result_t<RefFn&, const InT&>;
         using OutUser= std::invoke_result_t<UserFn&, const InT&>;
 
-        static_assert(std::is_same_v<OutRef, OutUser>, "ref_fn and user_fn must have the same type ")
+        static_assert(std::is_same_v<OutRef, OutUser>, "ref_fn and user_fn must have the same type ");
         
         for(int i = 1; i <= N; ++i){
             InT in = std::invoke(gen_fn);
-            OutRef out = std::invoke(ref_fn, in);
+            OutRef expect = std::invoke(ref_fn, in);
             run_case(tag + '#' + std::to_string(i), in, expect, user_fn, st);
         }
     }

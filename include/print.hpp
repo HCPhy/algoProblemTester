@@ -18,12 +18,21 @@ inline std::ostream& operator << (std::ostream& os, const std::vector<T>& v){
 
 template<typename A, typename B>
 inline std::ostream operator << (std::ostream& os, const std::pair<A, B>& p){
-    return os << '( ' << p.first << ', ' << p.second << ')';
+    return os << "( " << p.first << ", " << p.second << ") ";
 }
 
 
 namespace app {
 inline std::ostream& operator<<(std::ostream& os, const In& in){
-    return os << '(' << in.first << ',' << in.second << ')';
+    return os << "([";
+    const auto& v = in.first;
+    for(size_t i = 0; i < v.size(); ++i){
+        if(i) os << ',';
+        os << v[i];
+    }
+    
+    os << "], " << in.second << ") ";
+
+    return os;
 }
 } 
