@@ -1,7 +1,27 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": []
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run harness (release)",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/bin/harness",
+      "cwd": "${workspaceFolder}",
+      "args": [],
+      "preLaunchTask": "Build harness (release)"
+    },
+    {
+      "name": "Run harness (sanitizers, fail-fast)",
+      "type": "lldb",
+      "request": "launch",
+      "program": "${workspaceFolder}/bin/harness_san",
+      "cwd": "${workspaceFolder}",
+      "args": [],
+      "preLaunchTask": "Build harness (sanitizers, fail-fast)",
+      "env": {
+        "ASAN_OPTIONS": "abort_on_error=1:detect_leaks=1:halt_on_error=1:symbolize=1",
+        "UBSAN_OPTIONS": "print_stacktrace=1:halt_on_error=1:abort_on_error=1"
+      }
+    }
+  ]
 }
