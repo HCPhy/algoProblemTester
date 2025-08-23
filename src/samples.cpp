@@ -3,6 +3,8 @@
 #include <vector>
 
 namespace app{
+
+    
     std::vector<std::pair<In, Out>> samples(){
         return {
             {{ {1,4,9,5,8} , 4}, 3},
