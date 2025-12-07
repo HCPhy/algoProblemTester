@@ -8,13 +8,13 @@ This project serves two personal goals:
 ## Features
 
 - **Automatic Harness**: Automatically deduces input types from your function signature and generates random test cases.
-- **Zero Configuration**: No common header file (`def.hpp`) required. Just include your solution files in the runner.
+- **Zero Configuration**: No common header file required. Just include your solution files in the runner.
 
-## Usage (Recommended)
+## Usage
 
 This method allows you to separate your code into files without maintaining a shared header file.
 
-**1. Create Solution Files**
+### 1. Create Solution Files
 
 Write your Reference and User solutions in separate files. Use concrete types (e.g., `std::vector<int>`).
 
@@ -36,9 +36,9 @@ int ref_sol(std::vector<int> v) { ... }
 int user_sol(std::vector<int> v) { ... }
 ```
 
-**2. Create a Runner**
+### 2. Create the Runner
 
-Create a `src/test_runner.cpp` that includes your solution files.
+Use `src/main.cpp` as the entry point. It includes your solution files directly.
 
 ```cpp
 #include "auto_harness.hpp"
@@ -53,13 +53,10 @@ int main() {
 }
 ```
 
-**3. Run**
+### 3. Run
 
 ```bash
-g++ -std=c++17 -I include src/test_runner.cpp -o bin/test_runner
-./bin/test_runner
+mkdir -p bin
+g++ -std=c++17 -I include src/main.cpp -o bin/main
+./bin/main
 ```
-
-### Legacy Method
-
-If you prefer the old way with `def.hpp`, you can still use `src/main.cpp` and configure types manually in `include/def.hpp`.

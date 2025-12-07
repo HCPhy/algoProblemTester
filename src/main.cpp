@@ -1,35 +1,14 @@
-#include <iomanip>
-#include <iostream>
-#include "def.hpp"
-#include "harness.hpp"
+#include "auto_harness.hpp"
 
-namespace app{
-    std::vector<std::pair<In, Out>> samples();
-    In random_case();
-}
+// Directly include the source files. 
+// This allows the compiler to see the function definitions and deduce types 
+// without needing a shared header file like "def.hpp".
+#include "ref_sol.cpp"
+#include "user_sol.cpp"
 
-int main(){
-    std::ios::sync_with_stdio(false);
-    std::cin.tie(nullptr);
-
-    app::Stats st;
-
-    for(auto& [in, expect]: app::samples()){
-        run_case("sample", in, expect, app::user_solve, st);
-    }
-
-    const int FUZZ = 3000;
-    app::fuzz("fuzz", FUZZ, app::ref_solve, app::user_solve, app::random_case, st);
-
-    int total = st.passed + st.failed;
-
-    std::cout << "\n================ Summary ================\n";
-    std::cout << "Passed: " << st.passed << "/" << total << "\n";
-    std::cout << "Failed: " << st.failed << "\n";
-    std::cout << "Avg runtime (user) per case: "
-              << std::fixed << std::setprecision(2)
-              << (total ? st.us_total/total : 0.0) << " us\n";
-    std::cout << "=========================================\n";
-    return (st.failed==0)? 0 : 1;
-
+int main() {
+    // The harness automatically deduces that the input is std::vector<int>
+    // and generates random vectors for testing.
+    ah::execute(ref_solution, user_solution, 1000);
+    return 0;
 }
