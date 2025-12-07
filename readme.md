@@ -8,58 +8,58 @@ This project serves two personal goals:
 ## Features
 
 - **Automatic Harness**: Automatically deduces input types from your function signature and generates random test cases.
-- **Legacy Harness**: Manual control over types and I/O via `def.hpp`.
+- **Zero Configuration**: No common header file (`def.hpp`) required. Just include your solution files in the runner.
 
-## Usage
+## Usage (Recommended)
 
-### 1. Automatic Harness (Recommended)
+This method allows you to separate your code into files without maintaining a shared header file.
 
-The new automatic harness allows you to run tests without modifying header files.
+**1. Create Solution Files**
 
-**Steps:**
+Write your Reference and User solutions in separate files. Use concrete types (e.g., `std::vector<int>`).
 
-1. Create a `.cpp` file (e.g., `src/my_solution.cpp`) or use `src/auto_main.cpp`.
-2. Include `"auto_harness.hpp"`.
-3. Define your **Reference** solution (brute force / correct implementation).
-4. Define your **User** solution (optimized implementation).
-5. Call `ah::execute(ref_fn, user_fn, iterations)` in `main()`.
+`src/ref_sol.cpp`:
 
-**Example:**
+```cpp
+#include <vector>
+#include <algorithm>
+
+int ref_sol(std::vector<int> v) { ... }
+```
+
+`src/user_sol.cpp`:
+
+```cpp
+#include <vector>
+#include <algorithm>
+
+int user_sol(std::vector<int> v) { ... }
+```
+
+**2. Create a Runner**
+
+Create a `src/test_runner.cpp` that includes your solution files.
 
 ```cpp
 #include "auto_harness.hpp"
-#include <vector>
-
-// Reference Solution
-int ref_sol(std::vector<int> nums) { ... }
-
-// User Solution
-int user_sol(std::vector<int> nums) { ... }
+// Include your solution files directly
+#include "ref_sol.cpp"
+#include "user_sol.cpp"
 
 int main() {
-    // Run 1000 random test cases
+    // The harness deduces int(vector<int>) and tests automatically
     ah::execute(ref_sol, user_sol, 1000); 
     return 0;
 }
 ```
 
-**Run:**
+**3. Run**
 
 ```bash
-g++ -std=c++17 -I include src/auto_main.cpp -o bin/auto_main
-./bin/auto_main
+g++ -std=c++17 -I include src/test_runner.cpp -o bin/test_runner
+./bin/test_runner
 ```
 
-### 2. Legacy Harness
+### Legacy Method
 
-This method requires manual configuration.
-
-1. Modify `./include/def.hpp` to define the `In` (input) and `Out` (output) data types.
-2. Implement the reference solution in `./src/ref.cpp`.
-3. Implement your solution in `./src/user.cpp`.
-4. Add custom test cases in `./src/samples.cpp`.
-
-## Future Work
-
-- Add LLM API integration.
-- Frontend user interface.
+If you prefer the old way with `def.hpp`, you can still use `src/main.cpp` and configure types manually in `include/def.hpp`.
